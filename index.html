@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Amany's Little Universe</title>
+<meta name="description" content="عالم صغير اتعمل مخصوص لـ Amany">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23a8123a' d='M12 21s-8-5.2-8-11.2C4 6.6 6.3 4.5 8.8 4.5c1.4 0 2.6.7 3.2 1.8.6-1.1 1.8-1.8 3.2-1.8 2.5 0 4.8 2.1 4.8 5.3C20 15.8 12 21 12 21z'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Aref+Ruqaa:wght@700&family=Cairo:wght@400;600;800&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ivory:#fbf5ea;--cream:#f3e7d3;--pink:#d9a1a8;--wine:#6e1f36;--gold:#b8924a;--ink:#3a1520;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;font-family:Tajawal,Cairo,sans-serif;background:radial-gradient(circle at 80% 0,#f7d9dc 0,transparent 40%),var(--ivory);color:var(--ink);line-height:1.9;min-height:100vh}
+h1,h2,h3{font-family:Cairo,sans-serif;color:var(--wine);margin:.3em 0}
+button{font:inherit;cursor:pointer;border:0;border-radius:99px;padding:.55em 1.3em;background:var(--wine);color:#fff;transition:.2s}
+button:hover{background:#8a2b47}button.ghost{background:transparent;color:var(--wine);border:1px solid var(--gold)}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+input,textarea{font:inherit;padding:.6em 1em;border:1px solid var(--pink);border-radius:12px;background:#fff;width:100%;margin:.3em 0}
+#intro{position:fixed;inset:0;z-index:50;background:linear-gradient(160deg,#fbeee9,#f0d3d6);overflow:auto;display:flex;flex-direction:column;align-items:center;padding:6vh 1.2rem;text-align:center}
+#intro .en{font-family:Georgia,serif;font-style:italic;color:var(--gold);font-size:1.3rem}
+#letter{max-width:640px;white-space:pre-wrap;min-height:40vh;font-size:1.15rem}
+#intro .go{opacity:0;transition:1.2s;margin-top:1rem}#intro .go.on{opacity:1}
+.hidden{display:none!important}
+header.top{text-align:center;padding:2.5rem 1rem 1rem}
+header.top h1{font-size:clamp(2.6rem,9vw,5rem);font-family:Georgia,serif;font-style:italic;color:var(--wine)}
+.counters{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.cnt{background:#fff;border:1px solid var(--gold);border-radius:18px;padding:.8rem 1.6rem;min-width:200px}
+.cnt b{display:block;font-size:2.4rem;font-family:Cairo;color:var(--wine);line-height:1.2}
+nav{display:flex;gap:.4rem;overflow-x:auto;padding:.6rem 1rem;position:sticky;top:0;background:#fbf5eaee;z-index:10;border-bottom:1px solid var(--cream);scrollbar-width:thin}
+nav button{background:transparent;color:var(--wine);white-space:nowrap}
+nav button[aria-current=true]{background:var(--wine);color:#fff}
+main{max-width:1000px;margin:0 auto;padding:1.5rem 1rem 6rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1.4rem}
+.pol{background:#fff;padding:.8rem .8rem 1rem;box-shadow:0 8px 20px #6e1f3620;transform:rotate(-1.5deg);text-align:center;cursor:pointer}
+.pol:nth-child(even){transform:rotate(1.8deg)}
+.pol .ph{aspect-ratio:1;background:repeating-linear-gradient(45deg,#f7ece0,#f7ece0 8px,#f3e3d0 8px,#f3e3d0 16px);display:grid;place-items:center;font-size:2.4rem;overflow:hidden;border:1px dashed var(--pink)}
+.pol .ph img{width:100%;height:100%;object-fit:cover}
+.pol small{color:#8a6a70}
+.env{background:var(--cream);border:1px solid var(--gold);border-radius:14px;padding:1rem;text-align:center;cursor:pointer;position:relative}
+.env .flap{font-size:2.5rem;transition:transform .6s;display:inline-block}
+.env.open .flap{transform:rotateX(180deg)}
+.env .body{max-height:0;overflow:hidden;transition:max-height .8s;white-space:pre-wrap;text-align:right}
+.env.open .body{max-height:900px;margin-top:.6rem}
+.card{background:#fff;border-radius:16px;padding:1rem 1.2rem;margin:.7rem 0;border-inline-start:4px solid var(--pink)}
+.row{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.done{text-decoration:line-through;color:#999}
+.hugbox{text-align:center;padding:2rem}
+#hugmsg{font-size:1.5rem;min-height:5rem;font-family:Cairo;color:var(--wine);margin:1rem 0}
+.big{font-size:1.4rem;font-family:Cairo;background:linear-gradient(#fff,#fbeee9);border:1px solid var(--gold);border-radius:20px;padding:1.5rem;text-align:center}
+.ed{display:none;font-size:.8rem;padding:.2em .8em;background:var(--gold)}
+body.admin .ed{display:inline-block}
+#music{position:fixed;bottom:14px;left:14px;z-index:60;display:flex;gap:.4rem;background:#fffd;border:1px solid var(--gold);border-radius:99px;padding:.3rem;backdrop-filter:blur(6px)}
+#music button{padding:.3em .8em;background:transparent;color:var(--wine)}
+#toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--wine);color:#fff;padding:.6em 1.4em;border-radius:99px;z-index:90;opacity:0;transition:.3s;pointer-events:none}
+#toast.on{opacity:1}
+#lb{position:fixed;inset:0;background:#000d;z-index:80;display:none;place-items:center;padding:1rem;overflow:auto}
+#lb.on{display:grid}#lb .in{background:var(--ivory);border-radius:16px;padding:1rem;max-width:720px;width:100%}
+#lb img{width:100%;border-radius:10px;margin:.4rem 0}
+.heart{position:fixed;top:-20px;pointer-events:none;animation:fall linear forwards;z-index:5;opacity:.6}
+@keyframes fall{to{transform:translateY(110vh) rotate(40deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+body{background:linear-gradient(#f9d9de,#fbe9ea 40%,#f8dfe2)}
+.bar{background:#6e1f36;color:#fff;display:flex;align-items:center;gap:1rem;padding:.5rem 1.2rem;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px #0003}
+.bar .logo{font-family:'Great Vibes',cursive;font-size:1.9rem;white-space:nowrap}
+.bar nav{flex:1;display:flex;justify-content:center;gap:.2rem;background:none;border:0;position:static;padding:0}
+.bar nav button,.bar nav summary{background:none;color:#fff;border-radius:8px;padding:.3em .9em;list-style:none;cursor:pointer;white-space:nowrap}
+.bar nav button:hover,.bar nav summary:hover{background:#ffffff22}
+.bar details{position:relative}.bar details div{position:absolute;top:100%;inset-inline-start:0;background:#6e1f36;border-radius:10px;padding:.4rem;display:grid;min-width:170px}
+.home{background:#f4b6c0;color:#6e1f36!important;border-radius:10px!important}
+#hero{position:relative;display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:1rem;align-items:center;padding:1.5rem 1.5rem 3rem;min-height:440px;overflow:hidden;background:radial-gradient(circle at 50% 30%,#fff3f3,#f6c3cb 70%);border-radius:0 0 50% 50%/0 0 40px 40px}
+.jar{text-align:center;font-size:7rem;filter:drop-shadow(0 0 30px #ffc46b);line-height:1}
+.jar small{display:block;font-size:2.6rem}
+.htitle{text-align:center}
+.htitle h1{font-family:'Great Vibes',cursive;font-weight:400;font-size:clamp(3.2rem,8vw,6rem);line-height:1;margin:0;color:#7a1f3a}
+.htitle .sub{font-family:'Great Vibes',cursive;font-size:clamp(2rem,5vw,3.4rem);color:#7a1f3a;margin-top:-.3em}
+.htitle .en{font-family:Georgia,serif;font-style:italic;color:#8a3a50;margin:.4rem 0 1rem}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;max-width:460px;margin:auto}
+.stat{background:#fff9;border:1px solid #fff;border-radius:16px;padding:.5rem;box-shadow:0 4px 14px #6e1f3620}
+.stat b{display:block;font-family:Cairo;font-size:1.6rem;color:#6e1f36;line-height:1.3}.stat small{color:#6e1f36}
+.parch{background:#f6e6c8;padding:1.4rem 1.2rem;border-radius:6px 30px 6px 30px;box-shadow:0 10px 25px #6e1f3640;transform:rotate(1.5deg);font-size:.98rem}
+.parch h3{font-family:'Aref Ruqaa',serif;font-size:1.5rem}
+.parch .end{font-family:'Aref Ruqaa',serif;font-size:1.5rem;color:#6e1f36;white-space:pre-line}
+.cta{display:block;margin:1rem auto 0;font-size:1.4rem;font-family:'Aref Ruqaa',serif;padding:.4em 1.6em;box-shadow:0 6px 14px #6e1f3660}
+.hgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;max-width:1250px;margin:-1.5rem auto 0;padding:0 1.2rem 2rem}
+.hc{background:linear-gradient(#fff6f6,#fadde1);border:1px solid #fff;border-radius:18px;padding:.8rem;text-align:center;box-shadow:0 8px 22px #6e1f3622;display:flex;flex-direction:column;gap:.4rem;min-height:210px}
+.hc h3{font-family:'Aref Ruqaa',serif;font-size:1.35rem;margin:0}
+.hc .art{flex:1;display:grid;place-items:center;font-size:3.6rem;filter:drop-shadow(0 6px 8px #6e1f3633)}
+.hc .art .lk{display:flex;gap:.3rem}.lk i{width:46px;height:54px;background:#fff;border:3px solid #fff;box-shadow:0 3px 8px #0003;display:grid;place-items:center;font-style:normal;font-size:1.2rem;background:#9a8d8d}
+.hc .art ul{list-style:none;margin:0;padding:0;font-size:.9rem;text-align:start}.hc li:before{content:'○ ';color:var(--wine)}
+.hc p{margin:0;font-size:.88rem;color:#6e1f36}.hc button{background:#6e1f36;font-family:Cairo;padding:.3em 1.4em}
+.foot{background:#6e1f36;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:.7rem 1.4rem;margin-top:1rem}
+.foot .sc{font-family:'Great Vibes',cursive;font-size:1.8rem}.foot button{background:#ffffff22}
+@media(max-width:860px){#hero{grid-template-columns:1fr}.jar{font-size:4.5rem}.hgrid{grid-template-columns:1fr 1fr}.bar .logo{font-size:1.3rem}.bar nav{overflow-x:auto;justify-content:flex-start}.parch{transform:none}}
+
+[data-sec]{display:none}[data-sec].on{display:block}
+.wrap{max-width:1000px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.pol[data-unlocked="false"] .detail,.pol[data-unlocked="true"] .lock,.pol[data-unlocked="true"] .lockmsg,.detail{display:none}
+.pol[data-unlocked="true"]{cursor:pointer}.pol[data-unlocked="false"]{cursor:default}
+.pol[data-unlocked="false"] .ph img{display:none}
+.lk{display:flex;gap:.3rem}
+.bk{list-style:none;padding:0}.bk li{background:#fff;border-radius:16px;padding:.7rem 1.2rem;margin:.6rem 0;border-inline-start:4px solid var(--pink)}
+.bk li::before{content:"○ ";color:var(--wine)}.bk li:not([data-done=""])::before{content:"✓ "}.bk li:not([data-done=""]) .t{text-decoration:line-through;color:#999}
+.bk li[data-done=""] .when{display:none}
+.fut .letter,.fut[data-open="true"] .lockmsg,.fut[data-open="true"] .nodate{display:none}.fut[data-open="true"] .letter{display:block;white-space:pre-wrap}
+.fut[data-date=""] .lockmsg{display:none}.fut:not([data-date=""]) .nodate{display:none}
+details.q summary{cursor:pointer;color:var(--wine)}
+#reasons{max-height:320px;overflow:auto;background:#fff;border-radius:14px;padding:1rem 2.5rem}
+
+#letter{white-space:pre-wrap}
+
+#intro{background:radial-gradient(ellipse at 50% 0,#fff6f3 0,#f9d3da 55%,#eaa6b6 100%);justify-content:flex-start}
+.rose{position:fixed;z-index:1;pointer-events:none;line-height:1;filter:drop-shadow(0 8px 10px #6e1f3660)}
+.r1{top:-14px;right:-8px;font-size:7.5rem;transform:rotate(14deg)}.r2{top:56px;right:70px;font-size:4.2rem;transform:rotate(-10deg)}.r5{top:-8px;left:-6px;font-size:5.5rem;transform:rotate(-28deg)}
+.r3{bottom:-18px;left:-10px;font-size:8.5rem;transform:rotate(-18deg)}.r4{bottom:48px;left:96px;font-size:4.2rem;transform:rotate(12deg)}.r6{bottom:-6px;right:6px;font-size:6rem;transform:rotate(16deg)}
+.fh{position:fixed;bottom:-40px;z-index:1;color:#c4576f;opacity:0;pointer-events:none;animation:rise 10s linear infinite}
+@keyframes rise{0%{transform:translateY(0) scale(.6);opacity:0}15%{opacity:.75}100%{transform:translateY(-115vh) scale(1.3) rotate(25deg);opacity:0}}
+.petal{position:fixed;top:-30px;z-index:1;width:14px;height:18px;background:linear-gradient(135deg,#f7b9c5,#e07a93);border-radius:0 100% 0 100%;opacity:.85;pointer-events:none;animation:pf 12s linear infinite}
+@keyframes pf{to{transform:translate(70px,112vh) rotate(420deg)}}
+.ibox{position:relative;z-index:2;max-width:660px;width:100%;margin:0 auto}
+.beat{font-size:2.6rem;color:#c4576f;display:inline-block;animation:beat 1.6s ease-in-out infinite;filter:drop-shadow(0 0 12px #ff9db1)}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.25)}30%{transform:scale(1)}45%{transform:scale(1.18)}}
+.ibox .title{font-family:'Great Vibes',cursive;font-size:clamp(3.6rem,13vw,6.5rem);line-height:1;color:#7a1f3a;text-shadow:0 3px 14px #fff9}
+.ibox .en{font-family:'Great Vibes',cursive;font-style:normal;font-size:clamp(1.5rem,5vw,2.1rem);color:#8a3a50;margin:.2rem 0 .8rem}
+.pill{display:inline-block;background:#fffc;border:1px solid var(--gold);border-radius:99px;padding:.2em 1.5em;color:var(--wine);box-shadow:0 4px 14px #6e1f3622}
+.scroll{background:linear-gradient(#f9ecd2,#f3dfbd);border-radius:8px 34px 8px 34px;padding:1.4rem 1.5rem;margin:1rem 0;box-shadow:0 12px 30px #6e1f3650;text-align:right;transform:rotate(-.6deg);position:relative}
+.scroll::after{content:"";background:#8a1f3c url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M12 21s-8-5.2-8-11.2C4 6.6 6.3 4.5 8.8 4.5c1.4 0 2.6.7 3.2 1.8.6-1.1 1.8-1.8 3.2-1.8 2.5 0 4.8 2.1 4.8 5.3C20 15.8 12 21 12 21z'/%3E%3C/svg%3E") center/55% no-repeat;position:absolute;bottom:-14px;left:22px;width:34px;height:34px;border-radius:50%;background:#8a1f3c;color:#fff;display:grid;place-items:center;font-size:.9rem;box-shadow:0 3px 8px #0005}
+#intro #letter{min-height:30vh;font-size:1.12rem;max-width:none}
+.end{font-family:'Aref Ruqaa',serif;font-size:1.7rem!important;color:var(--wine)}
+.glow{font-family:'Aref Ruqaa',serif;font-size:1.5rem;padding:.4em 1.8em;animation:gl 2.4s ease-in-out infinite}
+@keyframes gl{0%,100%{box-shadow:0 0 0 0 #c4576f88}50%{box-shadow:0 0 0 14px #c4576f00,0 0 24px #c4576f99}}
+@media(max-width:600px){.r1{font-size:5rem}.r3{font-size:5.5rem}.r2,.r4{display:none}.r5{font-size:3.5rem}.r6{font-size:4rem}}
+
+.ic{width:1em;height:1em;vertical-align:-.15em;fill:currentColor}
+.rose,.fh{width:1em;height:1em}.fh{fill:currentColor}
+.heart svg{width:1em;height:1em}.heart{line-height:1}
+.beat svg{width:1em;height:1em}
+.jar{font-size:1rem}.jarsvg{width:140px;height:182px;display:block;margin:auto}.jr{display:flex;justify-content:center;margin-top:-34px;position:relative}.rs{width:74px;height:74px;margin:0 -8px;filter:drop-shadow(0 4px 6px #6e1f3655)}
+.hc .art>svg.ai{width:86px;height:86px}
+.lk i svg{width:24px;height:24px;color:#fff}.pol .ph .lock svg{width:48px;height:48px;color:#a08a8e}
+.env .flap svg{width:52px;height:52px}
+.hi{width:22px;height:22px}.bar .logo .ic{width:.7em;height:.7em}
+#music button svg{width:20px;height:20px}
+.a2{display:none}.on>.a2{display:inline}.on>.a1{display:none}
+.stat .ic{color:#c4576f}.cta .ic,button .ic{width:.9em;height:.9em}
+
+/* ====== حركات وأنيميشن ====== */
+@keyframes up{from{opacity:0;transform:translateY(26px)}}
+@keyframes sway{50%{rotate:6deg}}
+@keyframes shine{to{background-position:300% 0}}
+@keyframes tw{50%{opacity:.2}}
+@keyframes bob{to{translate:0 -7px}}
+@keyframes rise2{0%{transform:translateY(0) scale(.6);opacity:0}15%{opacity:.7}100%{transform:translateY(-470px) rotate(25deg) scale(1.2);opacity:0}}
+@keyframes wig{20%{transform:scale(1.15) rotate(-9deg)}45%{transform:scale(1.15) rotate(8deg)}70%{transform:scale(1.15) rotate(-5deg)}}
+@keyframes shake{20%{transform:rotate(-14deg)}40%{transform:rotate(12deg)}60%{transform:rotate(-8deg)}80%{transform:rotate(5deg)}}
+@keyframes pop{to{transform:translate(var(--dx),var(--dy)) scale(.3);opacity:0}}
+@keyframes glowb{50%{box-shadow:0 0 28px #e0456b55}}
+@keyframes jarpulse{50%{filter:drop-shadow(0 0 38px #ffb347)}}
+.rose{animation:sway 6s ease-in-out infinite;transform-origin:50% 90%}.r2{animation-delay:-2s}.r3{animation-delay:-3s}.r4{animation-delay:-1s}.r5{animation-delay:-4s}.r6{animation-delay:-5s}
+.ibox .title,.htitle h1{background:linear-gradient(90deg,#7a1f3a,#d4577a,#b8924a,#d4577a,#7a1f3a);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;animation:shine 7s linear infinite;padding:0 .1em}
+.jar{animation:jarpulse 3.2s ease-in-out infinite}
+#jar g circle{animation:tw 2.2s ease-in-out infinite}#jar g circle:nth-child(2n){animation-delay:-.7s}#jar g circle:nth-child(3n){animation-delay:-1.4s}
+.jr .rs{animation:bob 3s ease-in-out infinite alternate}.jr .rs+.rs{animation-delay:-1.5s}
+.stat{animation:bob 4.5s ease-in-out infinite alternate;transition:scale .3s,box-shadow .3s}.stat:nth-child(2){animation-delay:-1s}.stat:nth-child(3){animation-delay:-2s}.stat:nth-child(4){animation-delay:-3s}
+.stat:hover{scale:1.07;box-shadow:0 10px 24px #6e1f3638}
+.parch{animation:bob 6s ease-in-out infinite alternate;transition:transform .5s}.parch:hover{transform:rotate(0) scale(1.03)}
+.hh{position:absolute;bottom:-20px;width:18px;height:18px;color:#d9708a;opacity:0;animation:rise2 8s linear infinite;pointer-events:none}
+.bar .logo .ic,.foot .ic{animation:beat 1.6s ease-in-out infinite;color:#f4b6c0}
+button{position:relative;overflow:hidden;transition:transform .25s cubic-bezier(.3,1.5,.5,1),background .25s,box-shadow .25s}
+button::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,#fff6 50%,transparent 70%);transform:translateX(-130%);transition:transform .7s;pointer-events:none}
+button:hover::after{transform:translateX(130%)}
+button:hover{transform:translateY(-2px) scale(1.05)}button:active{transform:scale(.95)}
+button:hover .ic{animation:beat .8s ease-in-out infinite}
+.bar nav button::after,#music button::after{display:none}
+.bar nav>button::before{content:"";position:absolute;bottom:3px;left:22%;right:22%;height:2px;background:#f4b6c0;transform:scaleX(0);transition:transform .3s}
+.bar nav>button:hover::before{transform:scaleX(1)}
+.home svg{transition:transform .4s cubic-bezier(.3,1.6,.5,1)}.home:hover svg{transform:rotate(-14deg) scale(1.2)}
+#music{transition:transform .3s}#music:hover{transform:scale(1.08)}
+.hc{transition:transform .35s cubic-bezier(.2,.9,.3,1.3),box-shadow .35s}
+.hc:hover{transform:translateY(-9px) rotate(-.7deg);box-shadow:0 20px 38px #6e1f3640}
+.hc .art svg{transition:transform .4s cubic-bezier(.3,1.6,.5,1)}.hc:hover .art svg.ai{animation:wig .9s}
+.hc:hover h3{color:#a8123a}
+.pol{transition:transform .35s cubic-bezier(.2,.9,.3,1.3),box-shadow .35s}
+.pol:hover{transform:rotate(0) translateY(-10px) scale(1.05);box-shadow:0 20px 36px #6e1f3645;z-index:2}
+.pol:hover .lock svg{animation:shake .7s}.pol .ph img{transition:transform .5s}.pol:hover .ph img{transform:scale(1.1)}
+.env{transition:transform .3s cubic-bezier(.3,1.5,.5,1),box-shadow .3s}.env:hover{transform:translateY(-7px) rotate(-1deg);box-shadow:0 14px 28px #6e1f3638}
+.env:not(.open):hover .flap svg{animation:wig .8s}
+.card,.bk li{transition:transform .3s,box-shadow .3s}.card:hover,.bk li:hover{transform:translateX(-7px);box-shadow:0 8px 20px #6e1f3622}
+.big{animation:glowb 3s ease-in-out infinite}#hugbtn .ic,#rr .ic{animation:beat 1.4s ease-in-out infinite}
+.pill{transition:transform .3s}.pill:hover{transform:scale(1.06)}
+details.q summary{transition:letter-spacing .3s}details.q summary:hover{letter-spacing:.06em}
+[data-sec].on>*{animation:up .6s cubic-bezier(.2,.8,.2,1) backwards}
+[data-sec].on>*:nth-child(2){animation-delay:.08s}[data-sec].on>*:nth-child(3){animation-delay:.16s}[data-sec].on>*:nth-child(4){animation-delay:.24s}
+.hgrid>.hc,.grid>*,[data-sec].on .card{animation:up .6s cubic-bezier(.2,.8,.2,1) backwards}
+.hgrid>.hc:nth-child(1){animation-delay:0.22s}.grid>*:nth-child(1){animation-delay:0.16s}.hgrid>.hc:nth-child(2){animation-delay:0.29s}.grid>*:nth-child(2){animation-delay:0.22s}.hgrid>.hc:nth-child(3){animation-delay:0.36s}.grid>*:nth-child(3){animation-delay:0.28s}.hgrid>.hc:nth-child(4){animation-delay:0.43s}.grid>*:nth-child(4){animation-delay:0.34s}.hgrid>.hc:nth-child(5){animation-delay:0.50s}.grid>*:nth-child(5){animation-delay:0.40s}.hgrid>.hc:nth-child(6){animation-delay:0.57s}.grid>*:nth-child(6){animation-delay:0.46s}.hgrid>.hc:nth-child(7){animation-delay:0.64s}.grid>*:nth-child(7){animation-delay:0.52s}.hgrid>.hc:nth-child(8){animation-delay:0.71s}.grid>*:nth-child(8){animation-delay:0.58s}
+.ibox>*:not(.go){animation:up .9s cubic-bezier(.2,.8,.2,1) backwards}
+.ibox>*:nth-child(2){animation-delay:.15s}.ibox>*:nth-child(3){animation-delay:.3s}.ibox>*:nth-child(4){animation-delay:.45s}.ibox>*:nth-child(5){animation-delay:.6s}
+.pop{position:fixed;z-index:99;width:16px;height:16px;color:#c4576f;pointer-events:none;animation:pop .8s ease-out forwards}.pop svg{width:100%;height:100%;fill:currentColor}
+</style>
+</head>
+<body data-rel="" data-chat="" data-audio="love.m4a">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<radialGradient id="glow"><stop offset="0" stop-color="#fff0b8"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
+<symbol id="heart" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-8-5.2-8-11.2C4 6.6 6.3 4.5 8.8 4.5c1.4 0 2.6.7 3.2 1.8.6-1.1 1.8-1.8 3.2-1.8 2.5 0 4.8 2.1 4.8 5.3C20 15.8 12 21 12 21z"/></symbol>
+<symbol id="rose" viewBox="0 0 100 100"><path d="M50 70C36 74 22 86 16 96c16 2 30-4 34-26z" fill="#3f7a4a"/><path d="M50 70c14 4 28 16 34 26-16 2-30-4-34-26z" fill="#2f6a3c"/><path d="M50 8C27 8 10 27 13 50c3 22 21 34 37 34s34-12 37-34C90 27 73 8 50 8z" fill="var(--r1,#a8123a)"/><path d="M50 16C34 16 21 29 23 47c2 16 15 26 27 26s25-10 27-26C79 29 66 16 50 16z" fill="var(--r2,#cf2a53)"/><path d="M50 25c-11 0-20 8-19 19 1 10 9 17 19 17s18-7 19-17c1-11-8-19-19-19z" fill="var(--r3,#e24a6e)"/><path d="M50 33c-7 0-12 5-11 11 1 5 5 9 11 9s10-4 11-9c1-6-4-11-11-11z" fill="var(--r2,#cf2a53)"/><path d="M42 44c2-6 14-6 16 0M36 36c4-6 24-6 28 0M30 52c8 10 32 10 40 0" fill="none" stroke="#7a0f2a" stroke-opacity=".5" stroke-width="2.4" stroke-linecap="round"/></symbol>
+<symbol id="lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.2" fill="currentColor"/><path d="M8 10.5V8a4 4 0 018 0v2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="15.5" r="1.6" fill="#fff"/></symbol>
+<symbol id="env" viewBox="0 0 64 64"><rect x="6" y="14" width="52" height="38" rx="5" fill="#fbe3e6" stroke="#c4576f" stroke-width="2"/><path d="M7 17l25 20 25-20" fill="none" stroke="#c4576f" stroke-width="2.4" stroke-linejoin="round"/><circle cx="32" cy="37" r="7.5" fill="#a8123a"/><use href="#heart" x="26" y="31" width="12" height="12" style="color:#fff"/></symbol>
+<symbol id="jar" viewBox="0 0 100 130"><rect x="30" y="4" width="40" height="14" rx="4" fill="#b88a4a"/><rect x="34" y="18" width="32" height="9" fill="#d6b06a"/><path d="M30 27h40c10 8 16 18 16 36v41c0 10-8 18-18 18H32c-10 0-18-8-18-18V63c0-18 6-28 16-36z" fill="#fff7ea" fill-opacity=".6" stroke="#e9c58a" stroke-width="3"/><ellipse cx="50" cy="82" rx="34" ry="36" fill="url(#glow)"/><g fill="#ffd36b"><circle cx="30" cy="60" r="2.5"/><circle cx="68" cy="56" r="2.5"/><circle cx="24" cy="86" r="2.5"/><circle cx="76" cy="90" r="2.5"/><circle cx="36" cy="108" r="2.5"/><circle cx="64" cy="110" r="2.5"/><circle cx="50" cy="50" r="2.5"/></g><use href="#heart" x="30" y="66" width="40" height="40" style="color:#e0456b"/></symbol>
+<symbol id="bear" viewBox="0 0 64 64"><circle cx="16" cy="14" r="8" fill="#b9773f"/><circle cx="48" cy="14" r="8" fill="#b9773f"/><circle cx="16" cy="14" r="4" fill="#e8b98a"/><circle cx="48" cy="14" r="4" fill="#e8b98a"/><ellipse cx="32" cy="50" rx="19" ry="14" fill="#c98a50"/><circle cx="32" cy="27" r="17" fill="#c98a50"/><ellipse cx="32" cy="33" rx="8" ry="6" fill="#efc9a0"/><circle cx="25" cy="24" r="2.3" fill="#3a1520"/><circle cx="39" cy="24" r="2.3" fill="#3a1520"/><ellipse cx="32" cy="30.5" rx="3" ry="2" fill="#3a1520"/><use href="#heart" x="21" y="38" width="22" height="22" style="color:#e0456b"/></symbol>
+<symbol id="museum" viewBox="0 0 64 64"><path d="M5 24L32 7l27 17z" fill="#c4576f"/><g fill="#f3e0c4" stroke="#d9b98c"><rect x="10" y="28" width="7" height="22"/><rect x="21" y="28" width="7" height="22"/><rect x="36" y="28" width="7" height="22"/><rect x="47" y="28" width="7" height="22"/></g><rect x="5" y="52" width="54" height="7" rx="2" fill="#c4576f"/></symbol>
+<symbol id="hourglass" viewBox="0 0 64 64"><path d="M16 7h32M16 57h32" stroke="#6e1f36" stroke-width="5" stroke-linecap="round"/><path d="M20 7c0 14 12 18 12 25S20 43 20 57h24c0-14-12-18-12-25S44 21 44 7z" fill="#fbe3e6" stroke="#c4576f" stroke-width="2.5"/><path d="M24 51c4-6 12-6 16 0z" fill="#e0456b"/><path d="M26 14h12c-1 5-6 7-6 9 0-2-5-4-6-9z" fill="#e0456b"/></symbol>
+<symbol id="cal" viewBox="0 0 64 64"><rect x="8" y="12" width="48" height="45" rx="6" fill="#fff" stroke="#c4576f" stroke-width="2.5"/><path d="M8 18a6 6 0 016-6h36a6 6 0 016 6v8H8z" fill="#a8123a"/><path d="M20 6v10M44 6v10" stroke="#6e1f36" stroke-width="4" stroke-linecap="round"/><use href="#heart" x="20" y="30" width="24" height="24" style="color:#e0456b"/></symbol>
+<symbol id="chat" viewBox="0 0 64 64"><path d="M6 12h34a6 6 0 016 6v14a6 6 0 01-6 6H22l-10 8v-8H6a6 6 0 01-6-6V18a6 6 0 016-6z" transform="translate(4 0)" fill="#c4576f"/><path d="M30 30h26a6 6 0 016 6v12a6 6 0 01-6 6h-4v7l-9-7H30a6 6 0 01-6-6V36a6 6 0 016-6z" fill="#f4b6c0" stroke="#fff" stroke-width="2"/></symbol>
+<symbol id="home" viewBox="0 0 24 24"><path fill="currentColor" d="M3 11.5l9-8 9 8V21h-6.5v-6h-5v6H3z"/></symbol>
+<symbol id="play" viewBox="0 0 24 24"><path fill="currentColor" d="M7 4l13 8-13 8z"/></symbol>
+<symbol id="pause" viewBox="0 0 24 24"><path fill="currentColor" d="M6 4h4v16H6zM14 4h4v16h-4z"/></symbol>
+<symbol id="vol" viewBox="0 0 24 24"><path fill="currentColor" d="M3 9v6h4l5 4V5L7 9z"/><path d="M15.5 8.5a5 5 0 010 7M18 6a8.5 8.5 0 010 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="mute" viewBox="0 0 24 24"><path fill="currentColor" d="M3 9v6h4l5 4V5L7 9z"/><path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="dice" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4" fill="currentColor"/><g fill="#fff"><circle cx="8" cy="8" r="1.8"/><circle cx="16" cy="16" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="16" cy="8" r="1.8"/><circle cx="8" cy="16" r="1.8"/></g></symbol>
+</defs></svg>
+<!-- ============================================================
+ ✏️ كل الكلام والصور هنا في الـHTML مباشرة. الجافاسكريبت في آخر الملف للحركة فقط.
+ • تاريخ بداية العلاقة وأول كلام: في سطر <body> فوق → data-rel="2025-01-31" و data-chat="2025-01-20"
+ • الصور: حطيها في فولدر photos/ جنب الملف واكتبي <img src="photos/1.jpg" alt="">
+ • الموسيقى: data-audio في سطر <body>
+============================================================ -->
+
+<section id="intro" aria-label="البداية">
+  <div aria-hidden="true">
+    <svg class="rose r1" aria-hidden="true"><use href="#rose"/></svg><svg class="rose r2" aria-hidden="true"><use href="#rose"/></svg><svg class="rose r5" aria-hidden="true" style="--r1:#e58aa0;--r2:#f0a6b8;--r3:#f8c4d0"><use href="#rose"/></svg>
+    <svg class="rose r3" aria-hidden="true"><use href="#rose"/></svg><svg class="rose r4" aria-hidden="true"><use href="#rose"/></svg><svg class="rose r6" aria-hidden="true" style="--r1:#e58aa0;--r2:#f0a6b8;--r3:#f8c4d0"><use href="#rose"/></svg>
+    <svg class="fh" style="left:6%;font-size:18px;animation-delay:0s;animation-duration:9s"><use href="#heart"/></svg><svg class="fh" style="left:14%;font-size:26px;animation-delay:3s;animation-duration:11s"><use href="#heart"/></svg><svg class="fh" style="left:23%;font-size:16px;animation-delay:6s;animation-duration:8s"><use href="#heart"/></svg><svg class="fh" style="left:31%;font-size:30px;animation-delay:1s;animation-duration:12s"><use href="#heart"/></svg><svg class="fh" style="left:42%;font-size:20px;animation-delay:4s;animation-duration:9s"><use href="#heart"/></svg><svg class="fh" style="left:52%;font-size:24px;animation-delay:7s;animation-duration:10s"><use href="#heart"/></svg><svg class="fh" style="left:61%;font-size:16px;animation-delay:2s;animation-duration:8s"><use href="#heart"/></svg><svg class="fh" style="left:70%;font-size:28px;animation-delay:5s;animation-duration:12s"><use href="#heart"/></svg><svg class="fh" style="left:79%;font-size:18px;animation-delay:8s;animation-duration:9s"><use href="#heart"/></svg><svg class="fh" style="left:88%;font-size:24px;animation-delay:1s;animation-duration:11s"><use href="#heart"/></svg><svg class="fh" style="left:94%;font-size:16px;animation-delay:6s;animation-duration:8s"><use href="#heart"/></svg><svg class="fh" style="left:48%;font-size:34px;animation-delay:9s;animation-duration:13s"><use href="#heart"/></svg><span class="petal" style="left:8%;animation-delay:0s;animation-duration:11s"></span><span class="petal" style="left:20%;animation-delay:4s;animation-duration:13s"></span><span class="petal" style="left:35%;animation-delay:2s;animation-duration:10s"></span><span class="petal" style="left:50%;animation-delay:7s;animation-duration:12s"></span><span class="petal" style="left:63%;animation-delay:1s;animation-duration:14s"></span><span class="petal" style="left:76%;animation-delay:5s;animation-duration:11s"></span><span class="petal" style="left:90%;animation-delay:3s;animation-duration:13s"></span>
+  </div>
+  <div class="ibox">
+    <div class="beat" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#heart"/></svg></div>
+    <div class="title">Amany</div>
+    <div class="en">Every beautiful story has a beginning...</div>
+    <p><span class="pill">بداية حكايتنا: <b id="introDate">6/11/2026</b></span></p>
+    <div class="scroll">
+      <div id="letter">إلى Amany،
+
+مش عارف أبدأ منين... بس عارف إني بدأت أحب الحياة لما بقيتي جزء منه.
+ده مكان صغير عملته ليكي، فيه حكايتنا وضحكتنا وأحلامنا اللي لسه جاية.
+
+</div>
+    </div>
+    <p class="go end" id="endline">وحكايتنا لسه في أولها...</p>
+    <div class="row go" id="goRow" style="justify-content:center"><button id="enter" class="glow">ادخلي عالمنا <svg class="ic" aria-hidden="true"><use href="#heart"/></svg></button></div>
+    <button class="ghost" id="skip" style="margin-top:1rem">تخطي الكتابة</button>
+  </div>
+</section>
+
+<div id="app" class="hidden">
+  <div class="bar"><span class="logo">Amany's Little Universe <svg class="ic" aria-hidden="true"><use href="#heart"/></svg></span>
+    <nav id="nav" aria-label="الأقسام">
+      <!-- <button data-tab="memories">ذكرياتنا</button><button data-tab="env">جوابات ليكي</button><button data-tab="bucket">أحلامنا سوا</button><button data-tab="secrets">حاجات محدش يعرفها</button> -->
+      <!-- <details><summary>المزيد <svg class="ic" aria-hidden="true"><use href="#chev"/></svg></summary><div><button data-tab="hug">حضن من بعيد</button><button data-tab="reasons">365 سبب بحبك</button><button data-tab="museum">متحف ذكرياتنا</button><button data-tab="future">مستقبلنا معاً</button></div></details> -->
+    </nav>
+    <button class="home" data-tab="home" aria-label="الرئيسية"><svg class="hi" aria-hidden="true"><use href="#home"/></svg></button></div>
+
+  <!-- ============ الرئيسية ============ -->
+  <div data-sec="home" class="on">
+    <section id="hero"><svg class="hh" style="left:10%;animation-delay:0s;animation-duration:8s"><use href="#heart"/></svg><svg class="hh" style="left:25%;animation-delay:3s;animation-duration:10s"><use href="#heart"/></svg><svg class="hh" style="left:40%;animation-delay:1.5s;animation-duration:9s"><use href="#heart"/></svg><svg class="hh" style="left:58%;animation-delay:5s;animation-duration:8s"><use href="#heart"/></svg><svg class="hh" style="left:72%;animation-delay:2.5s;animation-duration:11s"><use href="#heart"/></svg><svg class="hh" style="left:88%;animation-delay:4s;animation-duration:9s"><use href="#heart"/></svg>
+<div class="jar"><img src="hero.png" alt="دبدوب وورد وقلوب" style="width:100%;max-width:340px;height:auto;display:block;margin:auto"></div>      <div class="htitle">
+        <h1>Amany</h1><div class="sub">'s Little Universe</div>
+        <div class="en"><svg class="ic" aria-hidden="true"><use href="#heart"/></svg> Every beautiful story has a beginning... <svg class="ic" aria-hidden="true"><use href="#heart"/></svg></div>
+        <div class="stats">
+          <div class="stat"><svg class="ic" aria-hidden="true"><use href="#heart"/></svg> بداية حبنا<b id="d1" style="font-size:1.1rem">6 / 11 / 2026</b></div>
+          <div class="stat"><svg class="ic" aria-hidden="true"><use href="#chat"/></svg> أول مرة اتكلمنا فيها<b id="d2" style="font-size:1.1rem">4 / 11 / 2026</b></div>
+          <div class="stat"><b id="c1">0</b><small>أيام من بداية حبنا</small></div>
+          <div class="stat"><b id="c2">0</b><small>أيام من أول كلام</small></div>
+        </div>
+      </div>
+      <div><div class="parch"><h3>Amany الغالية ..</h3>
+<div style="white-space:pre-line">من أول يوم عرفتك فيه، وانتي نور في حياتي،
+وجودك بيخلي الدنيا أجمل، وضحكتك هي سعادتي،
+ومهما حصل.. هلفضل أحبك، أقدرك، وأختارك دايماً.
+دي مش مجرد صفحة على الإنترنت..
+دي حكايتنا اللي لسه بنكتبها سوا.</div>
+        <div class="end">وحكايتنا لسه في أولها...</div></div>
+        <button class="cta" id="cta">ادخلي عالمنا <svg class="ic" aria-hidden="true"><use href="#heart"/></svg></button></div>
+    </section>
+    <div class="hgrid" id="grid">
+      <div class="hc"><h3>جوابات ليكي</h3><div class="art"><svg class="ai" aria-hidden="true"><use href="#env"/></svg></div><p>رسائل خاصة لكل لحظة</p><button data-tab="env"><svg class="ic" aria-hidden="true"><use href="#heart"/></svg> افتحي الظرف</button></div>
+      <div class="hc"><h3>أحلامنا سوا</h3><div class="art"><ul style="list-style:none;padding:0;margin:0;font-size:.9rem;text-align:start"><li>○ نسافر مكان جديد</li><li>○ نجرب أكلة جديدة</li><li>○ نحتفل بذكرى حبنا</li></ul></div><p></p><button data-tab="bucket"><svg class="ic" aria-hidden="true"><use href="#heart"/></svg> لنحققها معاً</button></div>
+      <div class="hc"><h3>ألبوم ذكرياتنا</h3><div class="art"><div class="lk"><i><svg class="ic" aria-hidden="true"><use href="#lock"/></svg></i><i><svg class="ic" aria-hidden="true"><use href="#lock"/></svg></i><i><svg class="ic" aria-hidden="true"><use href="#lock"/></svg></i></div></div><p>ذكريات جميلة في انتظارنا</p><button data-tab="memories"><svg class="ic" aria-hidden="true"><use href="#heart"/></svg> افتحي الألبوم</button></div>
+      <div class="hc"><h3>365 سبب بحبك</h3><div class="art"><svg class="ai" aria-hidden="true"><use href="#cal"/></svg></div><p>كل يوم سبب جديد لأحبك أكتر</p><button data-tab="reasons"><svg class="ic" aria-hidden="true"><use href="#heart"/></svg> اكتشفي السبب اليوم</button></div>
+      <div class="hc"><h3>مستقبلنا معاً</h3><div class="art"><svg class="ai" aria-hidden="true"><use href="#hourglass"/></svg></div><p>مغامرات أجمل في انتظارنا</p><button data-tab="future"><svg class="ic" aria-hidden="true"><use href="#heart"/></svg> افتحيها</button></div>
+      <div class="hc"><h3>حضن من بعيد</h3><div class="art"><svg class="ai" aria-hidden="true"><use href="#bear"/></svg></div><p>رسالة حب عشوائية ليكي</p><button data-tab="hug"><svg class="ic" aria-hidden="true"><use href="#heart"/></svg> اضغطي هنا</button></div>
+      <div class="hc"><h3>حاجات محدش يعرفها غيرنا</h3><div class="art"><svg class="ai" aria-hidden="true"><use href="#chat"/></svg></div><p>لأن بينا حاجات مميزة</p><button data-tab="secrets"><svg class="ic" aria-hidden="true"><use href="#heart"/></svg> اكتشفيها</button></div>
+      <div class="hc"><h3>متحف ذكرياتنا</h3><div class="art"><svg class="ai" aria-hidden="true"><use href="#museum"/></svg></div><p>قطع من حكايتنا</p><button data-tab="museum"><svg class="ic" aria-hidden="true"><use href="#heart"/></svg> ادخلي المتحف</button></div>
+    </div>
+  </div>
+
+  <!-- ============ ألبوم ذكرياتنا ============
+   لفتح ذكرى: غيّري data-unlocked إلى "true"، وحطي الصورة في <div class="ph"> وبعدها التفاصيل (التاريخ، الوصف، صور إضافية) في <div class="detail">.
+   مثال ذكرى مفتوحة (انسخيه وبدّليه مكان كارت مقفول):
+   <article class="pol" data-unlocked="true" tabindex="0" role="button"><div class="ph"><img src="photos/1.jpg" alt="أول خروجة"></div><b>أول خروجة سوا</b>
+     <div class="detail"><h3>أول خروجة سوا</h3><small>31 يناير 2025</small><p>وصف الذكرى هنا</p><img src="photos/1.jpg" alt=""><img src="photos/2.jpg" alt=""></div></article>
+  -->
+  <main class="wrap" data-sec="memories"><button class="ghost" data-tab="home">← الرئيسية</button><h2>ألبوم ذكرياتنا</h2>
+    <div class="grid">
+      <article class="pol" data-unlocked="false"><div class="ph"><span class="lock"><svg class="ic" aria-hidden="true"><use href="#lock"/></svg></span></div><b>أول خروجة سوا</b><br><small class="lockmsg">الذكرى دي لسه مستنيانا</small><div class="detail"></div></article>
+      <article class="pol" data-unlocked="false"><div class="ph"><span class="lock"><svg class="ic" aria-hidden="true"><use href="#lock"/></svg></span></div><b>أول مرة ناكل سوا</b><br><small class="lockmsg">الذكرى دي لسه مستنيانا</small><div class="detail"></div></article>
+      <article class="pol" data-unlocked="false"><div class="ph"><span class="lock"><svg class="ic" aria-hidden="true"><use href="#lock"/></svg></span></div><b>أول صورة لينا</b><br><small class="lockmsg">الذكرى دي لسه مستنيانا</small><div class="detail"></div></article>
+      <article class="pol" data-unlocked="false"><div class="ph"><span class="lock"><svg class="ic" aria-hidden="true"><use href="#lock"/></svg></span></div><b>أول هدية</b><br><small class="lockmsg">الذكرى دي لسه مستنيانا</small><div class="detail"></div></article>
+      <article class="pol" data-unlocked="false"><div class="ph"><span class="lock"><svg class="ic" aria-hidden="true"><use href="#lock"/></svg></span></div><b>أول حضن</b><br><small class="lockmsg">الذكرى دي لسه مستنيانا</small><div class="detail"></div></article>
+      <article class="pol" data-unlocked="false"><div class="ph"><span class="lock"><svg class="ic" aria-hidden="true"><use href="#lock"/></svg></span></div><b>أول عيد ميلاد سوا</b><br><small class="lockmsg">الذكرى دي لسه مستنيانا</small><div class="detail"></div></article>
+      <article class="pol" data-unlocked="false"><div class="ph"><span class="lock"><svg class="ic" aria-hidden="true"><use href="#lock"/></svg></span></div><b>أول رحلة سوا</b><br><small class="lockmsg">الذكرى دي لسه مستنيانا</small><div class="detail"></div></article>
+      <article class="pol" data-unlocked="false"><div class="ph"><span class="lock"><svg class="ic" aria-hidden="true"><use href="#lock"/></svg></span></div><b>أكتر يوم ضحكنا فيه</b><br><small class="lockmsg">الذكرى دي لسه مستنيانا</small><div class="detail"></div></article>
+    </div></main>
+
+  <!-- ============ جوابات ليكي ============ -->
+  <main class="wrap" data-sec="env"><button class="ghost" data-tab="home">← الرئيسية</button><h2>جوابات ليكي</h2>
+    <div class="grid">
+      <div class="env" tabindex="0" role="button" aria-expanded="false"><span class="flap"><svg class="fi" aria-hidden="true"><use href="#env"/></svg></span><div><b>افتحي لما تكوني زعلانة</b></div><div class="body">اكتبي هنا جواب حقيقي...</div></div>
+      <div class="env" tabindex="0" role="button" aria-expanded="false"><span class="flap"><svg class="fi" aria-hidden="true"><use href="#env"/></svg></span><div><b>افتحي لما توحشيني</b></div><div class="body">اكتبي هنا جواب حقيقي...</div></div>
+      <div class="env" tabindex="0" role="button" aria-expanded="false"><span class="flap"><svg class="fi" aria-hidden="true"><use href="#env"/></svg></span><div><b>افتحي لما نختلف</b></div><div class="body">اكتبي هنا جواب حقيقي...</div></div>
+      <div class="env" tabindex="0" role="button" aria-expanded="false"><span class="flap"><svg class="fi" aria-hidden="true"><use href="#env"/></svg></span><div><b>افتحي لما تكوني مبسوطة</b></div><div class="body">اكتبي هنا جواب حقيقي...</div></div>
+      <div class="env" tabindex="0" role="button" aria-expanded="false"><span class="flap"><svg class="fi" aria-hidden="true"><use href="#env"/></svg></span><div><b>افتحي لما تحتاجي تبتسمي</b></div><div class="body">اكتبي هنا جواب حقيقي...</div></div>
+      <div class="env" tabindex="0" role="button" aria-expanded="false"><span class="flap"><svg class="fi" aria-hidden="true"><use href="#env"/></svg></span><div><b>افتحي لما تحسي إنك محتاجة حضن</b></div><div class="body">اكتبي هنا جواب حقيقي...</div></div>
+    </div></main>
+
+  <!-- ============ أحلامنا سوا ============ (لتحقيق حلم: اكتبي تاريخه في data-done="2026-05-01" واكتبي التاريخ في <small class="when">) -->
+  <main class="wrap" data-sec="bucket"><button class="ghost" data-tab="home">← الرئيسية</button><h2>أحلامنا سوا</h2>
+    <ul class="bk">
+      <li data-done=""><span class="t">نسافر مكان جديد</span> <small class="when">اتحقق في </small></li>
+      <li data-done=""><span class="t">نجرب أكلة جديدة</span> <small class="when">اتحقق في </small></li>
+      <li data-done=""><span class="t">نحضر فيلم سوا</span> <small class="when">اتحقق في </small></li>
+      <li data-done=""><span class="t">نروح مكان مميز</span> <small class="when">اتحقق في </small></li>
+      <li data-done=""><span class="t">نحتفل بذكرى حبنا</span> <small class="when">اتحقق في </small></li>
+      <li data-done=""><span class="t">نعمل ألبوم صور كامل لينا</span> <small class="when">اتحقق في </small></li>
+    </ul></main>
+
+  <!-- ============ حضن من بعيد ============ -->
+  <main class="wrap" data-sec="hug"><button class="ghost" data-tab="home">← الرئيسية</button>
+    <div class="hugbox"><h2>حضن من بعيد</h2><div id="hugmsg">اضغطي على الزرار</div><button id="hugbtn">ابعتيلي حضن <svg class="ic" aria-hidden="true"><use href="#heart"/></svg></button>
+      <ul id="hugs" hidden>
+        <li>لو كنت جنبك كنت حضنتك دلوقتي.</li>
+        <li>ابتسمي، في حد هنا بيحب ضحكتك جدًا.</li>
+        <li>اعتبري دي حضنة كبيرة لحد ما نتقابل.</li>
+        <li>مهما كان يومك صعب، أنا في ضهرك.</li>
+      </ul></div></main>
+
+  <!-- ============ حاجات محدش يعرفها غيرنا ============ -->
+  <main class="wrap" data-sec="secrets"><button class="ghost" data-tab="home">← الرئيسية</button><h2>حاجات محدش يعرفها غيرنا</h2>
+    <div class="card"><b>نكتة بينا</b><p>اكتبي النكتة هنا</p></div>
+    <div class="card"><b>اسم دلع</b><p>اكتبي الدلع هنا</p></div>
+    <div class="card"><b>سؤال</b><p>أنا أول مرة حبيتك لما...؟</p><details class="q"><summary>اعرفي الإجابة</summary>اكتبي الإجابة هنا</details></div></main>
+
+  <!-- ============ 365 سبب ============ (كل <li> سبب؛ بدّلي "اكتبه هنا" بالسبب) -->
+  <main class="wrap" data-sec="reasons"><button class="ghost" data-tab="home">← الرئيسية</button><h2>365 سبب بحبك</h2>
+    <div class="big"><small>سبب النهارده (<b id="rn"></b>)</small><p id="rs"></p><button id="rr">سبب عشوائي <svg class="ic" aria-hidden="true"><use href="#dice"/></svg></button></div>
+    <details class="q" style="margin-top:1rem"><summary>كل الأسباب</summary>
+    <ol id="reasons">
+     <ul>
+<li>ضحكتك بتصلّح يومي كله.</li>
+<li>عشان بتسمعيني بجد.</li>
+<li>عشان وجودك بيحسسني بالأمان.</li>
+<li>عشان طيبة قلبك حقيقية.</li>
+<li>عشان حتى لما بتزعلي بتبقي جميلة.</li>
+<li>عشان بتفرحي بالحاجات الصغيرة.</li>
+<li>عشان صوتك بيهدّيني.</li>
+<li>عشان معاكي بحس إني نسختي الأحسن.</li>
+<li>عشان بتخليني أحلم ببكرة.</li>
+<li>عشان اسمك لوحده بيبسطني.</li>
+<li>عشان بتعرفي تطمني قلبي بكلمة.</li>
+<li>عشان كلامك بيفضل في بالي طول اليوم.</li>
+<li>عشان تفاصيلك الصغيرة مش بتفوتني.</li>
+<li>عشان ضحكتك ليها صوت مميز عندي.</li>
+<li>عشان بتخلّي الوقت يعدّي من غير ما أحس.</li>
+<li>عشان بحب أحكيلك عن يومي مهما كان عادي.</li>
+<li>عشان رأيك بيفرق معايا.</li>
+<li>عشان بتشجعيني لما أشك في نفسي.</li>
+<li>عشان بتفهمي سكوتي قبل كلامي.</li>
+<li>عشان وجودك بيهوّن عليّا الزحمة.</li>
+<li>عشان بتخلّي أبسط مكالمة ذكرى حلوة.</li>
+<li>عشان عينيكي فيهم راحة غريبة.</li>
+<li>عشان عفويتك بتضحكني.</li>
+<li>عشان مش محتاج أمثّل قدامك.</li>
+<li>عشان بتخليني أحس إني متشاف ومفهوم.</li>
+<li>عشان بتسألي عليّا من قلبك.</li>
+<li>عشان اهتمامك بيبان في التفاصيل.</li>
+<li>عشان بتعرفي تفرّحيني من غير مجهود.</li>
+<li>عشان عندك طريقة خاصة في الكلام.</li>
+<li>عشان بحب أسمع حكاياتك حتى لو سمعتها قبل كده.</li>
+<li>عشان بتخلّي الأيام العادية مميزة.</li>
+<li>عشان بتفتكري الحاجات اللي بقولها.</li>
+<li>عشان بتعرفي تضحكيني وأنا متضايق.</li>
+<li>عشان حنيتك بتوصل حتى من بعيد.</li>
+<li>عشان بتخليني مستني الرسالة اللي منك.</li>
+<li>عشان بحب أشاركك نجاحاتي الصغيرة.</li>
+<li>عشان بتفرحيلي بصدق.</li>
+<li>عشان بتخليني أكون على طبيعتي.</li>
+<li>عشان وجودك مش محتاج مناسبة.</li>
+<li>عشان بحب طريقة نطقك لاسمي.</li>
+<li>عشان بتعرفي تعبّري عن اللي جواكي.</li>
+<li>عشان عندك قلب بيحس بالناس.</li>
+<li>عشان بتعاملي اللي حواليكي بذوق.</li>
+<li>عشان بتعتذري لما تغلطي.</li>
+<li>عشان بتحاولي تصلّحي بدل ما تسيبي الزعل يكبر.</li>
+<li>عشان بتسمعي وجهة نظري حتى لو مختلفة.</li>
+<li>عشان عندك رأي وشخصية.</li>
+<li>عشان بتعرفي تقولي لأ لما تكوني مش مقتنعة.</li>
+<li>عشان طموحك بيحمّسني.</li>
+<li>عشان عندك حاجات كتير نفسك تحققيها.</li>
+<li>عشان بحب أشوفك فخورة بنفسك.</li>
+<li>عشان بتتعلمي من تجاربك.</li>
+<li>عشان بتحاولي حتى في الأيام الصعبة.</li>
+<li>عشان قوتك مش بتمنع حنيتك.</li>
+<li>عشان ضعفك قدامي مش بيقلل منك.</li>
+<li>عشان صراحتك بتخليني واثق في كلامك.</li>
+<li>عشان مشاعرك صادقة.</li>
+<li>عشان بتعرفي تخلّيكي قريبة من غير ما تضغطي.</li>
+<li>عشان بتحترمي مساحتي.</li>
+<li>عشان بتخليني أحترم مساحتك كمان.</li>
+<li>عشان وجودنا سوا فيه راحة.</li>
+<li>عشان بحب اختلافنا قبل اتفاقنا.</li>
+<li>عشان بنتعلم نفهم بعض كل يوم.</li>
+<li>عشان بتخليني أفكر بطريقة مختلفة.</li>
+<li>عشان أسئلتك ساعات بتفتح مواضيع حلوة.</li>
+<li>عشان فضولك بيخلّي الكلام معاكي ممتع.</li>
+<li>عشان عندك حس فكاهة يليق عليّا.</li>
+<li>عشان هزارك بييجي في وقته.</li>
+<li>عشان حتى خناقاتنا بتعلّمنا حاجة.</li>
+<li>عشان لما نتصالح بحس بقيمة قربنا.</li>
+<li>عشان بتعرفي تقولي إنك زعلانة بدل ما تخبي.</li>
+<li>عشان بتحاولي تفهمي قصدي.</li>
+<li>عشان مش بتختصري شخصيتي في غلطة.</li>
+<li>عشان بتشوفي فيّا حاجات حلوة أنا ساعات بنساها.</li>
+<li>عشان بتخليني عايز أبقى أحسن من نفسي.</li>
+<li>عشان نجاحك بيفرحني كأنه نجاحي.</li>
+<li>عشان بحب أسمع صوت فرحتك.</li>
+<li>عشان بتخلّي عندي حاجة حلوة أستناها.</li>
+<li>عشان رسالة صباح الخير منك بتفرق.</li>
+<li>عشان تصبحين على خير منك ليها طعم تاني.</li>
+<li>عشان بحب أطمن إنك وصلتي بالسلامة.</li>
+<li>عشان سلامتك مهمة عندي.</li>
+<li>عشان بحب أعرف إن يومك كان عامل إيه.</li>
+<li>عشان تفاصيل يومك بتهمني.</li>
+<li>عشان بحب أسمع عن الحاجات اللي بتضايقك.</li>
+<li>عشان نفسي أكون سند ليكي وقت التعب.</li>
+<li>عشان بتخليني أفكر في بكرة بشكل أجمل.</li>
+<li>عشان وجودك بيضيف لحياتي معنى.</li>
+<li>عشان معاكي الصمت مش محرج.</li>
+<li>عشان ممكن نقعد نتكلم بالساعات.</li>
+<li>عشان ممكن نضحك على حاجة محدش غيرنا يفهمها.</li>
+<li>عشان بينا تفاصيل محدش يعرفها غيرنا.</li>
+<li>عشان عندنا ذكريات بتضحكني كل ما أفتكرها.</li>
+<li>عشان أول مرة اتكلمنا لسه ليها مكان عندي.</li>
+<li>عشان كل مرة بنتكلم فيها بعرف عنك حاجة جديدة.</li>
+<li>عشان لسه عندي فضول أعرف عنك أكتر.</li>
+<li>عشان مش بملّ من وجودك.</li>
+<li>عشان حتى غيابك بيخليني أقدّر وجودك.</li>
+<li>عشان وحشاني حتى لو لسه مكلمك من شوية.</li>
+<li>عشان صوت إشعار رسالتك بيخليني أبتسم.</li>
+<li>عشان بحب أقرأ كلامك أكتر من مرة.</li>
+<li>عشان ساعات بفتكر جملة قلتيها وأضحك لوحدي.</li>
+<li>عشان بتخلّي قلبي أهدى.</li>
+<li>عشان وجودك بيخفف توتري.</li>
+<li>عشان بتفكريني إن مش لازم كل حاجة تبقى مثالية.</li>
+<li>عشان بتقبلي إن ليا أيام مش أحسن حاجة.</li>
+<li>عشان بتديني فرصة أشرح نفسي.</li>
+<li>عشان بتعرفي تفرّقي بين زعلي منك وزعلي من الدنيا.</li>
+<li>عشان مشاعرك مش لعبة.</li>
+<li>عشان بتقدّري الوقت اللي بنقضيه سوا.</li>
+<li>عشان بتحترمي وعودك.</li>
+<li>عشان لما تقولي هتعملي حاجة بتحاولي تلتزمي بيها.</li>
+<li>عشان بتخليني أصدق إن الاهتمام أفعال مش كلام بس.</li>
+<li>عشان بتعبّري عن حبك بطريقتك.</li>
+<li>عشان طريقتك في الاهتمام شبهك ومميزة.</li>
+<li>عشان بتحاولي تفرّحيني حتى بالحاجات البسيطة.</li>
+<li>عشان بتشاركي معايا الحاجات اللي بتفرحك.</li>
+<li>عشان بتوثقي فيّا وتحكيلي.</li>
+<li>عشان بتخليني أحس إني قريب من عالمك.</li>
+<li>عشان بحب أعرف إيه اللي بيشغلك.</li>
+<li>عشان بحب أحلامك حتى لو لسه بعيدة.</li>
+<li>عشان نفسي أشوفك بتحققي اللي نفسك فيه.</li>
+<li>عشان بتستاهلي كل حاجة حلوة.</li>
+<li>عشان بتعرفي تكمّلي رغم التعب.</li>
+<li>عشان عندك صبر أكتر مما تتخيلي.</li>
+<li>عشان بتقومي بعد كل يوم صعب.</li>
+<li>عشان مش بتستسلمي بسهولة.</li>
+<li>عشان بتواجهي مخاوفك واحدة واحدة.</li>
+<li>عشان شجاعتك بتبان في قراراتك.</li>
+<li>عشان بتعرفي تطلبي المساعدة لما تحتاجيها.</li>
+<li>عشان مش بتتكسفي تكوني على حقيقتك.</li>
+<li>عشان عفويتك أحلى من أي تصنّع.</li>
+<li>عشان ضحكتك الصادقة بتعدّي ليا.</li>
+<li>عشان ملامحك بتتغير لما تتحمسي لحاجة.</li>
+<li>عشان عينيكي بتلمع لما تتكلمي عن اللي بتحبيه.</li>
+<li>عشان تعبيرات وشك بتحكي قبل كلامك.</li>
+<li>عشان نبرة صوتك لما تكوني مبسوطة.</li>
+<li>عشان طريقتك وإنتي بتحكي بحماس.</li>
+<li>عشان بحب أسمعك وإنتي بتضحكي من قلبك.</li>
+<li>عشان حتى هزارك البايخ بحبه.</li>
+<li>عشان عندك لمسة خاصة في كل حاجة.</li>
+<li>عشان ذوقك بيعجبني.</li>
+<li>عشان اختياراتك بتكشف تفاصيل حلوة فيكي.</li>
+<li>عشان بتحبي الحاجات اللي ليها معنى.</li>
+<li>عشان بتدي قيمة للذكريات.</li>
+<li>عشان بتفتكري المناسبات الصغيرة.</li>
+<li>عشان بتفرحي بالمفاجآت البسيطة.</li>
+<li>عشان بتحبي التفاصيل اللي غيرك ممكن ماياخدش باله منها.</li>
+<li>عشان عندك طريقة تخلي أي مكان ألطف.</li>
+<li>عشان وجودك بيخلّي القعدة أحلى.</li>
+<li>عشان بحب أمشي معاكي حتى من غير خطة.</li>
+<li>عشان أي مشوار معاكي ممكن يبقى ذكرى.</li>
+<li>عشان بحب نخطط لحاجات نفسنا نعملها.</li>
+<li>عشان عندنا أحلام ممكن نبنيها سوا.</li>
+<li>عشان بتخليني متحمس للحاجات الجاية.</li>
+<li>عشان بحب أشاركك اختياراتي.</li>
+<li>عشان بحب أسمع ترشيحاتك.</li>
+<li>عشان ممكن نختلف في فيلم ونتبسط برضه.</li>
+<li>عشان ضحكنا سوا بيبقى مختلف.</li>
+<li>عشان كلامنا ملوش وقت محدد.</li>
+<li>عشان عندك قدرة تحوّلي موضوع صغير لحكاية طويلة.</li>
+<li>عشان بتحكيلي عن يومك بتفاصيله.</li>
+<li>عشان بتسأليني عن رأيي وبتسمعيه.</li>
+<li>عشان بتاخدي كلامي بجدية.</li>
+<li>عشان بتقوليلي الحقيقة حتى لو مش أسهل حاجة.</li>
+<li>عشان بتعرفي تطمني من غير وعود كبيرة.</li>
+<li>عشان وجودك نفسه بيطمنّي.</li>
+<li>عشان بتخليني أحس إننا فريق.</li>
+<li>عشان بنحاول نحل المشاكل بدل ما نكسب خناقة.</li>
+<li>عشان بتقدّري الاعتراف بالغلط.</li>
+<li>عشان بتسامحي لما يكون فيه سبب حقيقي.</li>
+<li>عشان بتعرفي تحطي حدود صحية.</li>
+<li>عشان بتحافظي على كرامتك.</li>
+<li>عشان بتحترمي كرامتي.</li>
+<li>عشان بتخلّي الحب عندي مرتبط بالاحترام.</li>
+<li>عشان مش بتطلبي مني أبقى شخص مش أنا.</li>
+<li>عشان بتشجعيني أكون صريح.</li>
+<li>عشان بتخليني أتكلم عن اللي جوايا.</li>
+<li>عشان بتستحملي لحظات ترددي.</li>
+<li>عشان بتفهمي إن عندي مسؤوليات وضغط.</li>
+<li>عشان بتدعمي طموحي من غير ما تلغي طموحك.</li>
+<li>عشان عندك حياة وأهداف تخصك.</li>
+<li>عشان بحب أشوفك مستقلة وقوية.</li>
+<li>عشان بتعرفي توازني بين قلبك وعقلك.</li>
+<li>عشان حكمتك بتظهر في مواقف كتير.</li>
+<li>عشان بتفكري قبل ما تحكمي.</li>
+<li>عشان مش بتصدقي كل كلام يتقال.</li>
+<li>عشان عندك فضول تتعلمي وتكتشفي.</li>
+<li>عشان بتحبي تطوري من نفسك.</li>
+<li>عشان بتفرحي لما تتعلمي حاجة جديدة.</li>
+<li>عشان بتشاركي معايا أفكارك.</li>
+<li>عشان عقلك جزء كبير من جمالك.</li>
+<li>عشان كلامك ساعات بيخليني أعيد التفكير.</li>
+<li>عشان عندك وجهة نظر تستاهل تتسمع.</li>
+<li>عشان بتعرفي تناقشي من غير تقليل.</li>
+<li>عشان بتحترمي اختلاف الناس.</li>
+<li>عشان رحمتك بتبان في تعاملك.</li>
+<li>عشان قلبك بيحنّ على اللي بتحبيهم.</li>
+<li>عشان بتسألي على الناس اللي يهموكي.</li>
+<li>عشان بتفتكري مين محتاج كلمة حلوة.</li>
+<li>عشان بتفرحي لغيرك من غير مقارنة.</li>
+<li>عشان مش بتقللي من تعب حد.</li>
+<li>عشان بتقدّري المجهود حتى لو النتيجة مش كاملة.</li>
+<li>عشان بتشوفي النية الحلوة.</li>
+<li>عشان بتعرفي تشكري على الحاجات الصغيرة.</li>
+<li>عشان امتنانك بيخلّي اللحظات أحلى.</li>
+<li>عشان بتخليني أقدّر تفاصيل يومي.</li>
+<li>عشان بتفكريني إن السعادة ساعات في أبسط حاجة.</li>
+<li>عشان معاكي بحس إن البيت ممكن يكون شخص.</li>
+<li>عشان كلمة منك ممكن تغيّر مود يوم كامل.</li>
+<li>عشان ضحكتك بتفضل معايا بعد ما نقفل.</li>
+<li>عشان بحب أفتكر مواقفنا العفوية.</li>
+<li>عشان كل ذكرى معاكي ليها إحساسها.</li>
+<li>عشان بحب الأماكن اللي بتفكرني بيكي.</li>
+<li>عشان أغنية ممكن تفكرني بيكي فجأة.</li>
+<li>عشان ساعات بلاقي نفسي بدوّر على حاجة تعجبك.</li>
+<li>عشان بحب أشاركك الأغاني اللي بسمعها.</li>
+<li>عشان بحب أعرف إيه اللي بيفرح قلبك.</li>
+<li>عشان نفسي أتعلم أعبّرلك عن حبي أحسن.</li>
+<li>عشان بتخليني أراجع نفسي وأتطور.</li>
+<li>عشان وجودك بيخليني أهدى في ردود فعلي.</li>
+<li>عشان بتعلم معاكي معنى الصبر.</li>
+<li>عشان بتعلم معاكي إن الاهتمام استمرارية.</li>
+<li>عشان بنقدر نبدأ كلامنا من جديد بعد الزعل.</li>
+<li>عشان بتخليني أتمسك بالحوار بدل الهروب.</li>
+<li>عشان بتعرفي تقولي محتاجة إيه بوضوح.</li>
+<li>عشان بتسمحيلي أكون ضعيف من غير حكم.</li>
+<li>عشان بتفهمي إن مش كل سكوت معناه بُعد.</li>
+<li>عشان بتديني مساحة أرتب أفكاري.</li>
+<li>عشان بتحترمي وقتي ومجهودي.</li>
+<li>عشان بتقدّري انشغالي من غير ما تلغي احتياجك.</li>
+<li>عشان بتعرفي تطلبي اهتمامك من غير تجريح.</li>
+<li>عشان بتخليني أتعلم أحب بطريقة أنضج.</li>
+<li>عشان بحب إننا نكبر ونتغير ونتعلم.</li>
+<li>عشان مش لازم نتفق في كل حاجة عشان نكون قريبين.</li>
+<li>عشان بتخلّي الاختلاف بينا فرصة للفهم.</li>
+<li>عشان بتشوفي أحسن احتمال فيّا.</li>
+<li>عشان بتفكريني بنقط قوتي.</li>
+<li>عشان بتفرحي لما أكون مبسوط.</li>
+<li>عشان بتاخدي بالك من تعبي.</li>
+<li>عشان بتسأليني أكلت ولا لأ.</li>
+<li>عشان بتفتكري إني محتاج أرتاح.</li>
+<li>عشان بتشجعيني لما أكون مضغوط.</li>
+<li>عشان بتخليني أحس إن تعبي مش لوحدي.</li>
+<li>عشان بتشاركي معايا لحظات الهدوء.</li>
+<li>عشان بحب وجودك في الأيام العادية قبل المميزة.</li>
+<li>عشان مش محتاج أعمل حاجة كبيرة عشان أتبسط معاكي.</li>
+<li>عشان رسالة قصيرة منك ممكن تكفيني.</li>
+<li>عشان كلمة وحشتني منك بتفرق.</li>
+<li>عشان بحب لما تناديني باسمي.</li>
+<li>عشان ليكي طريقة في الدلع بتضحكني.</li>
+<li>عشان بحب هزارنا اللي محدش يفهمه.</li>
+<li>عشان بينا لغة خاصة من النظرات والكلام.</li>
+<li>عشان بتعرفي إمتى تهزري وإمتى تسمعي.</li>
+<li>عشان بتعرفي تكوني جد وقت الجد.</li>
+<li>عشان مشاعرك مش بتلغي عقلك.</li>
+<li>عشان عقلك مش بيمنع قلبك من الحنية.</li>
+<li>عشان بتخليني أشوف الجمال في التفاصيل.</li>
+<li>عشان عندك روح مريحة.</li>
+<li>عشان وجودك بيضيف دفء لأي يوم.</li>
+<li>عشان بحب طريقتك وإنتي بتقولي رأيك.</li>
+<li>عشان بتحبي بصدق لما تطمني.</li>
+<li>عشان بتخليني أحس إن كلامي مسموع.</li>
+<li>عشان بتفتحيلي قلبك واحدة واحدة.</li>
+<li>عشان بتشاركي معايا مخاوفك.</li>
+<li>عشان بتوثقي فيّ بما يكفي إنك تكوني حقيقية.</li>
+<li>عشان بتخليني أحب أكون شخص يعتمد عليه.</li>
+<li>عشان نفسي أكون موجود وقت احتياجك.</li>
+<li>عشان بتستاهلي حد يسمعك باهتمام.</li>
+<li>عشان بتستاهلي حد يفرح بنجاحك.</li>
+<li>عشان بتستاهلي حب فيه احترام وراحة.</li>
+<li>عشان بتعرفي تفرحي نفسك بنفسك.</li>
+<li>عشان مش مستنية حد يحدد قيمتك.</li>
+<li>عشان قيمتك مش مرتبطة بمزاج يومك.</li>
+<li>عشان حتى أيامك الصعبة مش بتقلل من جمال روحك.</li>
+<li>عشان بتتعلمي تحبي نفسك أكتر.</li>
+<li>عشان بحب أشوفك واثقة في نفسك.</li>
+<li>عشان ابتسامتك لما تنجحي بتسوى كتير.</li>
+<li>عشان إصرارك بيخليني أفتخر بيكي.</li>
+<li>عشان بتواجهي الدنيا بطريقتك.</li>
+<li>عشان عندك أحلام تستاهل تتحقق.</li>
+<li>عشان بحب أسمع خططك للمستقبل.</li>
+<li>عشان نفسي أكون من الناس اللي بتشجعك.</li>
+<li>عشان بحب فكرة إننا نحتفل بإنجازات بعض.</li>
+<li>عشان وجودك بيخلّي المستقبل أقل غموضًا.</li>
+<li>عشان معاكِ عندي ذكريات لسه بتتكتب.</li>
+<li>عشان كل يوم ممكن أعرف سبب جديد أحبك عشانه.</li>
+<li>عشان مشاعري ناحيتك مش محتاجة مناسبة.</li>
+<li>عشان بحبك في التفاصيل مش في اللحظات الكبيرة بس.</li>
+<li>عشان بحبك وإنتي مبسوطة وإنتي متضايقة.</li>
+<li>عشان بحبك في هدوئك وفي حماسك.</li>
+<li>عشان بحبك وإنتي بتتكلمي وإنتي ساكتة.</li>
+<li>عشان بحب اختلاف حالاتك ومشاعرك.</li>
+<li>عشان مش لازم تكوني مثالية عشان أحبك.</li>
+<li>عشان بقبلك إنسانة ليها مميزات وعيوب.</li>
+<li>عشان بحب حقيقتك مش صورة متخيلة عنك.</li>
+<li>عشان بتخليني أكون حقيقي أنا كمان.</li>
+<li>عشان قربك اختيار بحب أجدده كل يوم.</li>
+<li>عشان بحب أتعرف عليكي من أول وجديد.</li>
+<li>عشان كل مرحلة فيكي بتكشفلي حاجة جميلة.</li>
+<li>عشان بتفاجئيني بتفصيلة جديدة.</li>
+<li>عشان فيكي حاجات كتير لسه عايز أكتشفها.</li>
+<li>عشان وجودك مش مكرر في حياتي.</li>
+<li>عشان ليكي مكانة مش شبه حد.</li>
+<li>عشان مشاعري ليكي ليها حكاية خاصة.</li>
+<li>عشان بحب الطريقة اللي دخلتي بيها حياتي.</li>
+<li>عشان وجودك خلّى عندي ذكريات جديدة.</li>
+<li>عشان بقيت أربط حاجات حلوة بيكي.</li>
+<li>عشان بحب أشاركك لحظات نجاحي وفشلي.</li>
+<li>عشان بتخليني أفتكر إن الحياة فيها حاجات تستاهل.</li>
+<li>عشان بحب أكون أول حد أحكيلك الخبر.</li>
+<li>عشان بحب أسمع منك أول ما يحصلّك حاجة.</li>
+<li>عشان وجودك في يومي بقى حاجة غالية.</li>
+<li>عشان حتى لو يومنا مشغول بنلاقي وقت لبعض.</li>
+<li>عشان بتعرفي تخلّي البعد أهون بالكلام.</li>
+<li>عشان بحب أخطط للحظة أشوفك فيها.</li>
+<li>عشان اللحظات اللي بنكون فيها سوا بتعدّي بسرعة.</li>
+<li>عشان بعد كل مقابلة بفضل فاكر تفاصيلها.</li>
+<li>عشان سلامك عليّا بيخليني أبتسم.</li>
+<li>عشان نظرة منك ساعات بتقول كلام كتير.</li>
+<li>عشان قربك بيخليني مطمن من غير تفسير.</li>
+<li>عشان حضنك في خيالي مكان آمن.</li>
+<li>عشان بحب فكرة إني أشاركك كوب قهوة.</li>
+<li>عشان بحب نتكلم عن حاجات ملهاش أهمية ونضحك.</li>
+<li>عشان حتى السكوت جنبك له معنى.</li>
+<li>عشان بحب نعمل ذكريات بسيطة.</li>
+<li>عشان مش لازم كل خروجة تبقى مثالية.</li>
+<li>عشان بتعرفي تستمتعي باللحظة.</li>
+<li>عشان بتخليني أبص للحياة بعين أهدى.</li>
+<li>عشان بتخليني أكون ممتن لوجودك.</li>
+<li>عشان بتخليني أؤمن إن الحنية قوة.</li>
+<li>عشان بتعرفي تحتوي الموقف بكلمة.</li>
+<li>عشان بتعرفي تقولي كلام ييجي في وقته.</li>
+<li>عشان اهتمامك مش محتاج استعراض.</li>
+<li>عشان بتعملي حاجات حلوة من غير ما تستني مقابل.</li>
+<li>عشان بتلاحظي لما أكون مش على طبيعتي.</li>
+<li>عشان بتسألي بدل ما تفترضي.</li>
+<li>عشان بتحاولي تسمعي قبل ما تحكمي.</li>
+<li>عشان بتديني فرصة أكون مفهوم.</li>
+<li>عشان بتعرفي تواجهي المشكلة بشجاعة.</li>
+<li>عشان بتحبي الوضوح.</li>
+<li>عشان بتقدّري الصراحة حتى لو صعبة.</li>
+<li>عشان بتخلّي الثقة بينا حاجة مهمة.</li>
+<li>عشان بتفهمي إن الحب مسؤولية كمان.</li>
+<li>عشان بتعرفي توازني بين القرب والحرية.</li>
+<li>عشان بتحترمي أحلامك وأحلامي.</li>
+<li>عشان بتشجعيني أكمّل اللي بدأته.</li>
+<li>عشان بتفكريني إني أقدر أحاول تاني.</li>
+<li>عشان بتفرحي بتقدمي حتى لو بسيط.</li>
+<li>عشان مش بتقارني رحلتي برحلة غيري.</li>
+<li>عشان بتخليني أحتفل بالخطوات الصغيرة.</li>
+<li>عشان عندك طاقة حلوة لما تتحمسي.</li>
+<li>عشان ضحكتك بتخلّي المكان أدفى.</li>
+<li>عشان صوتك بيفضل في ودني بعد المكالمة.</li>
+<li>عشان طريقة كتابتك للرسائل مميزة.</li>
+<li>عشان بحب الإيموجيز اللي بتختاريها.</li>
+<li>عشان بحب لما تبعتيلي حاجة فكرتك بيا.</li>
+<li>عشان بتشاركي معايا صور الحاجات اللي عجبتك.</li>
+<li>عشان بتخليني جزء من يومك.</li>
+<li>عشان بحب أعرف إيه اللي شاغل بالك.</li>
+</ul>
+    </ol></details></main>
+
+  <!-- ============ متحف ذكرياتنا ============ (لإضافة صورة: <img src="photos/x.jpg" alt=""> — وصوت: <audio controls src="audio/x.mp3"></audio>) -->
+  <main class="wrap" data-sec="museum"><button class="ghost" data-tab="home">← الرئيسية</button><h2>متحف ذكرياتنا</h2>
+    <div class="grid">
+      <div class="pol" style="cursor:default"><b>أول رسالة بينا</b><p>لسه فاضي</p><small></small></div>
+      <div class="pol" style="cursor:default"><b>هدية مميزة</b><p>لسه فاضي</p><small></small></div>
+      <div class="pol" style="cursor:default"><b>Voice Note مميزة</b><p>لسه فاضي</p><small></small></div>
+      <div class="pol" style="cursor:default"><b>محادثة مش هننساها</b><p>لسه فاضي</p><small></small></div>
+      <div class="pol" style="cursor:default"><b>صورة ليها معنى</b><p>لسه فاضي</p><small></small></div>
+      <div class="pol" style="cursor:default"><b>تاريخ مهم في حياتنا</b><p>لسه فاضي</p><small></small></div>
+    </div></main>
+
+  <!-- ============ رسائل المستقبل ============ (data-date="2026-12-31" هو يوم الفتح. ملحوظة: الرسالة موجودة في كود الصفحة، فالقفل شكلي فقط) -->
+  <main class="wrap" data-sec="future"><button class="ghost" data-tab="home">← الرئيسية</button><h2>رسائل للمستقبل</h2>
+    <div class="card fut" data-date=""><b>عيد ميلادها</b>
+      <p class="lockmsg"><svg class="ic" aria-hidden="true"><use href="#lock"/></svg> مقفولة — فاضل <b class="left"></b> يوم</p><p class="nodate"><svg class="ic" aria-hidden="true"><use href="#lock"/></svg> مقفولة (لسه مفيش تاريخ)</p>
+      <div class="letter">اكتبي الرسالة هنا</div></div>
+    <div class="card fut" data-date=""><b>ذكرى بداية حبنا</b>
+      <p class="lockmsg"><svg class="ic" aria-hidden="true"><use href="#lock"/></svg> مقفولة — فاضل <b class="left"></b> يوم</p><p class="nodate"><svg class="ic" aria-hidden="true"><use href="#lock"/></svg> مقفولة (لسه مفيش تاريخ)</p>
+      <div class="letter">اكتبي الرسالة هنا</div></div></main>
+
+  <footer class="foot"><span class="sc">Together Forever <svg class="ic" aria-hidden="true"><use href="#heart"/></svg></span><span>&#8203;<svg class="ic" aria-hidden="true"><use href="#heart"/></svg> أحبك دائماً .. Amany</span><span></span></footer>
+</div>
+
+<div id="music" class="hidden"><button class="pp" id="pp" aria-label="تشغيل أو إيقاف الموسيقى"><svg class="a1" aria-hidden="true"><use href="#play"/></svg><svg class="a2" aria-hidden="true"><use href="#pause"/></svg></button><button class="mu" id="mu" aria-label="كتم الصوت"><svg class="a1" aria-hidden="true"><use href="#vol"/></svg><svg class="a2" aria-hidden="true"><use href="#mute"/></svg></button></div>
+<div id="lb" role="dialog" aria-modal="true"><div class="in"><button class="ghost" id="lbx">إغلاق ✕</button><div id="lbbody"></div></div></div>
+<div id="toast" role="status" data-err="ملف الموسيقى مش موجود في /audio/our-song.mp3"></div>
+<span id="heartsrc" hidden><svg class="ic" aria-hidden="true"><use href="#heart"/></svg></span>
+
+<!-- ===== الجافاسكريبت: حركة فقط (لا يحتوي على أي كلام أو صور) ===== -->
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],B=document.body.dataset;
+const day=d=>Math.max(0,Math.floor((Date.now()-new Date(d+'T00:00'))/864e5)),fmt=d=>d.split('-').reverse().join(' / ');
+[['rel','d1','c1'],['chat','d2','c2']].forEach(([k,d,c])=>{const v=B[k];if(!v)return;$('#'+d).textContent=fmt(v);$('#'+c).textContent=day(v);if(k==='rel')$('#introDate').textContent=fmt(v)});
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500)};
+/* الموسيقى: عنصر Audio واحد للموقع كله */
+const au=new Audio(B.audio);au.loop=true;
+au.onerror=()=>toast($('#toast').dataset.err);
+au.addEventListener('ended',()=>{au.currentTime=0;au.play().catch(()=>{})});
+const sync=()=>{$('#pp').classList.toggle('on',!au.paused);$('#mu').classList.toggle('on',au.muted)};
+au.onplay=au.onpause=sync;
+$('#pp').onclick=()=>au.paused?au.play().catch(()=>{}):au.pause();
+$('#mu').onclick=()=>{au.muted=!au.muted;sync()};sync();
+/* كتابة الرسالة الأولى */
+const L=$('#letter'),full=L.textContent;let i=0;L.textContent='';
+const done=()=>{clearInterval(ty);L.textContent=full;$('#skip').classList.add('hidden');$('#endline').classList.add('on');$('#goRow').classList.add('on')};
+const ty=setInterval(()=>{L.textContent=full.slice(0,++i);if(i>=full.length)done()},22);
+$('#skip').onclick=done;
+const hearts=()=>{let n=0;const t=setInterval(()=>{if(++n>14)return clearInterval(t);const h=document.createElement('span');h.className='heart';h.innerHTML=$('#heartsrc').innerHTML;h.style.cssText=`left:${Math.random()*100}vw;font-size:${12+Math.random()*16}px;color:#c4576f;animation-duration:${7+Math.random()*5}s`;document.body.appendChild(h);setTimeout(()=>h.remove(),13000)},500)};
+$('#enter').onclick=()=>{au.play().catch(()=>{});$('#music').classList.remove('hidden');$('#intro').classList.add('hidden');$('#app').classList.remove('hidden');hearts()};
+/* التنقل بين الأقسام (بدون إعادة تحميل، فالموسيقى مبتقفش) */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(!b)return;$$('[data-sec]').forEach(s=>s.classList.toggle('on',s.dataset.sec===b.dataset.tab));const d=b.closest('details');if(d)d.open=false;scrollTo(0,0)});
+$('#cta').onclick=()=>$('#grid').scrollIntoView({behavior:'smooth'});
+/* الأظرف */
+$$('.env').forEach(el=>{const t=()=>el.setAttribute('aria-expanded',el.classList.toggle('open'));el.onclick=t;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}}});
+/* الذكريات المفتوحة */
+$$('.pol[data-unlocked="true"]').forEach(c=>{const o=()=>{$('#lbbody').innerHTML=c.querySelector('.detail').innerHTML;$('#lb').classList.add('on')};c.setAttribute('tabindex',0);c.onclick=o;c.onkeydown=e=>{if(e.key==='Enter')o()}});
+$('#lbx').onclick=()=>$('#lb').classList.remove('on');$('#lb').onclick=e=>{if(e.target.id==='lb')$('#lb').classList.remove('on')};
+document.onkeydown=e=>{if(e.key==='Escape')$('#lb').classList.remove('on')};
+/* حضن عشوائي */
+let last=-1;$('#hugbtn').onclick=()=>{const h=$$('#hugs li');if(!h.length)return;let n;do{n=Math.floor(Math.random()*h.length)}while(h.length>1&&n===last);last=n;$('#hugmsg').textContent=h[n].textContent;hearts()};
+/* 365 سبب */
+const R=$$('#reasons li'),now=new Date(),dn=Math.floor((now-new Date(now.getFullYear(),0,0))/864e5)-1,ti=dn%R.length;
+const showR=k=>$('#rs').textContent=R[k].textContent;showR(ti);$('#rn').textContent=ti+1;$('#rr').onclick=()=>showR(Math.floor(Math.random()*R.length));
+/* رسائل المستقبل */
+$$('.fut').forEach(f=>{const d=f.dataset.date;if(!d)return;const t=new Date(d+'T00:00');if(Date.now()>=t)f.dataset.open='true';else f.querySelector('.left').textContent=Math.ceil((t-Date.now())/864e5)});
+
+/* فقاعات قلوب عند الضغط */
+document.addEventListener('click',e=>{if(!e.target.closest('button,.env,.pol'))return;for(let k=0;k<6;k++){const p=document.createElement('span');p.className='pop';p.innerHTML=$('#heartsrc').innerHTML;const a=Math.random()*6.28,r=40+Math.random()*40;p.style.cssText=`left:${e.clientX-8}px;top:${e.clientY-8}px;--dx:${Math.cos(a)*r}px;--dy:${Math.sin(a)*r-20}px`;document.body.appendChild(p);setTimeout(()=>p.remove(),850)}});
+</script>
+</body>
+</html>
